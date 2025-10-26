@@ -3,7 +3,7 @@
     <main>
       <!-- AI基础板块 -->
       <section class="ai-basics">
-        <h2>沉默与荣耀</h2>
+        <h2>沉默的荣耀</h2>
         <p class="section-desc">
         演员： 马晓伟  霍青  秦焰  于和伟  李健  喻恩泰  傅程鹏  郝平  吴越  巩峥  魏晨  徐佳  郑晓宁  徐洪浩  曾黎  谭凯  黄俊鹏  余皑磊  艾东  曹磊  张晞临  郑家彬  那志东  隆妮 
         </p><p class="section-desc">类型： 无 地区： 大陆</p>
