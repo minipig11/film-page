@@ -29,11 +29,26 @@
 import { useUserStore } from '../store/user';
 import CourseCard from '../components/CourseCard.vue';
 import { useRouter } from 'vue-router';
+import { testCourseCheckAuth } from '../utils/supabase';
 
 const router = useRouter();
 
 const startPlay = async (courseId, chapterId, isTrial = 'oss') => {
   console.log('开始学习:', courseId, chapterId, isTrial);
+
+  if(isTrial != 'local') {
+    const token = checkLogin();
+    if (!token) {
+      router.push('/login');
+      return;
+    }
+
+    const hasOrdered = await testCourseCheckAuth(token);
+    if (!hasOrdered) {
+      router.push('/login');
+      return;
+    }
+  }
 
   try {
     router.push({
