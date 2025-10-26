@@ -4,39 +4,71 @@
       <!-- AI基础板块 -->
       <section class="ai-basics">
         <h2>沉默与荣耀</h2>
-        <p class="section-desc">剧情介绍：1949年8月，本来要在福州迎接解放的吴石，突然被蒋介石任命为国民政府国防部次长。为了获得更多情报，吴石按照党组织的指示毅然前往台湾就职，利用工作便利陆续向中共华东局提供了有关金门岛兵力变化、西南战役国军调动等重要情报。原本要回上海的朱枫在得知吴石原来的交通员牺牲、组织上需要派新的交通员去台湾时，也毅然放弃了阖家团圆的机会，只身去了台湾。吴石、朱枫密切合作，送出了多份重要情报。1950年2月，由于叛徒出卖，吴石、朱枫、陈宝仓和聂曦等人不幸被捕，牺牲在台北西马场町，但他们送出的舟山兵力部署图帮助解放军顺利解放舟山群岛，为全国解放事业作出了贡献。</p>
+        <p class="section-desc">
+        演员： 马晓伟  霍青  秦焰  于和伟  李健  喻恩泰  傅程鹏  郝平  吴越  巩峥  魏晨  徐佳  郑晓宁  徐洪浩  曾黎  谭凯  黄俊鹏  余皑磊  艾东  曹磊  张晞临  郑家彬  那志东  隆妮 
+        </p><p class="section-desc">类型： 无 地区： 大陆</p>
+        <p class="section-desc">导演： 杨亚洲 上映日期：2025-09-30</p>
+        <p class="section-desc">
+          剧情介绍：1949年8月，本来要在福州迎接解放的吴石，突然被蒋介石任命为国民政府国防部次长。为了获得更多情报，吴石按照党组织的指示毅然前往台湾就职，利用工作便利陆续向中共华东局提供了有关金门岛兵力变化、西南战役国军调动等重要情报。原本要回上海的朱枫在得知吴石原来的交通员牺牲、组织上需要派新的交通员去台湾时，也毅然放弃了阖家团圆的机会，只身去了台湾。吴石、朱枫密切合作，送出了多份重要情报。1950年2月，由于叛徒出卖，吴石、朱枫、陈宝仓和聂曦等人不幸被捕，牺牲在台北西马场町，但他们送出的舟山兵力部署图帮助解放军顺利解放舟山群岛，为全国解放事业作出了贡献。
+        </p>
         <div class="course-grid">
-          <CourseCard title="沉默的荣耀" type="basic" level="初级" ageRange="(5-7 岁)" description="沉默的荣耀" courseWareId="ai_basic" @viewCourseWare="viewCourseWare">
+          <CourseCard
+            v-for="(episode, index) in episodes"
+            :key="index"
+            :title="episode.title"
+            :type="episode.type"
+            :level="episode.level"
+            :ageRange="episode.ageRange"
+            :description="episode.description"
+            :courseWareId="episode.courseWareId"
+            @viewCourseWare="viewCourseWare"
+          >
             <div class="sub-items">
               <div class="sub-item">
-                <span>第1集</span>
+                <span>{{ episode.name }}</span>
                 <div class="btn-group">
-                  <button class="btn-learn" @click="startPlay('沉默的荣耀', '第1集', 'oss')">开始播放</button>
+                  <button
+                    class="btn-learn"
+                    @click="startPlay(episode.title, episode.name, 'oss')"
+                  >
+                    开始播放
+                  </button>
                 </div>
               </div>
             </div>
           </CourseCard>
         </div>
       </section>
-
-      
     </main>
   </div>
 </template>
 
 <script setup>
-// filepath: /d:/code_repository_2/DayOfAI/day-of-ai-page/src/views/Home.vue
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useUserStore } from '../store/user';
 import CourseCard from '../components/CourseCard.vue';
-import { useRouter } from 'vue-router';
 import { testCourseCheckAuth } from '../utils/supabase';
 
 const router = useRouter();
 
+// 定义 34 集的数组
+const episodes = ref(
+  Array.from({ length: 34 }, (_, i) => ({
+    title: '沉默的荣耀',
+    type: 'basic',
+    level: '初级',
+    ageRange: '(5-7 岁)',
+    description: '沉默的荣耀',
+    courseWareId: `ai_basic_${i + 1}`,
+    name: `第${i + 1}集`,
+  }))
+);
+
 const startPlay = async (courseId, chapterId, isTrial = 'oss') => {
   console.log('开始学习:', courseId, chapterId, isTrial);
 
-  if(isTrial != 'local') {
+  if (isTrial != 'local') {
     const token = checkLogin();
     if (!token) {
       router.push('/login');
@@ -51,18 +83,20 @@ const startPlay = async (courseId, chapterId, isTrial = 'oss') => {
   }
 
   try {
-    router.push({
-      path: '/CoursePlay',
-      query: {
-        courseId: courseId,
-        chapterId: chapterId,
-        isTrial: isTrial
-      }
-    }).catch(err => {
-      console.error('路由跳转失败:', err)
-    })
+    router
+      .push({
+        path: '/CoursePlay',
+        query: {
+          courseId: courseId,
+          chapterId: chapterId,
+          isTrial: isTrial,
+        },
+      })
+      .catch((err) => {
+        console.error('路由跳转失败:', err);
+      });
   } catch (error) {
-    console.error('跳转异常:', error)
+    console.error('跳转异常:', error);
   }
 };
 
@@ -81,7 +115,6 @@ const checkLogin = () => {
 
   return token;
 };
-
 </script>
 
 <style scoped>

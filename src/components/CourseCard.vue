@@ -4,7 +4,7 @@
     :class="{ 'gray-text': isGrayText }" 
     :data-type="type"
   >
-    <div class="card-header" @click="toggleDrawer">
+    <!--div class="card-header" @click="toggleDrawer">
       <div class="title-and-meta-group">
         <h3>{{ title }}</h3>
         <div class="meta">
@@ -17,7 +17,7 @@
         <button v-if="courseWareId" class="btn-course-ware-card" @click.stop="$emit('viewCourseWare', courseWareId)">课程资料</button>
       </div>
       <span class="arrow" :class="{ 'is-open': isOpen }">▼</span>
-    </div>
+    </div-->
     <div class="drawer" :class="{ 'is-open': isOpen }">
       <slot></slot>
     </div>
