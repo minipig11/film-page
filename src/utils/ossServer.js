@@ -6,6 +6,8 @@ const client = new OSS({
   accessKeyId: import.meta.env.VITE_OSS_ACCESS_KEY_ID,
   accessKeySecret: import.meta.env.VITE_OSS_ACCESS_KEY_SECRET,
   bucket: import.meta.env.VITE_OSS_BUCKET,
+  endpoint: import.meta.env.VITE_OSS_ENDPOINT, // 自定义域名,
+  cname: true,
 });
 
 // Add debug logging before dotenv.config()
@@ -25,6 +27,7 @@ const client = new OSS({
 export const getSignedOssVideoUrl = async (courseId, chapterId, expires = 3600) => {
    // 异步生成签名 URL
     const videoFilePath = courseId + "/" + courseId + chapterId + ".mp4" ;
+    // const videoFilePath = "1.mov" ;
     let url = '';
     try {
       url  = await client.signatureUrl(videoFilePath, { expires });
@@ -56,7 +59,7 @@ export const getOrderUrl = async (expires = 3600) => {
    try {
      url  = await client.signatureUrl(url, { expires });
    } catch (error) {
-     console.error('生成签名 URL 时出错:', error);
+     console.error('生成订购 URL 时出错:', error);
    }
 
    console.log('生成的订购 URL:', url );
