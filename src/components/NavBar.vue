@@ -46,10 +46,9 @@
         </router-link-->
         
         <div class="nav-links">
+          <router-link to="/" class="nav-item">沉默的荣耀</router-link>
+          <router-link to="/advanced" class="nav-item">帝国时代4</router-link>
           <!--div class="nav-item">
-            <span>Teachers <i class="fas fa-angle-down"></i></span>
-          </div>
-          <div class="nav-item">
             <span>School Administrators <i class="fas fa-angle-down"></i></span>
           </div>
           <div class="nav-item">
@@ -75,13 +74,15 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
+
 let router = useRouter();
+let route = useRoute();
 
 //返回首页
 const goHome = () => {
   isShow.value = false;
-  router.push('/');
+  router.push(`/`);
 };
 
 //进入登录页

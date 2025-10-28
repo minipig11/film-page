@@ -16,11 +16,13 @@
 
 <script setup>
 import { ref, onBeforeMount } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { getOrderUrl } from '../utils/ossServer';
 import { episodeTitle } from '../config/index.js';
 
 const router = useRouter();
+const route = useRoute();
+
 const orderUrl = ref('');
 const titles = ref(Object.values(episodeTitle).map((item) => item.title)); // 提取标题信息
 
@@ -29,7 +31,7 @@ onBeforeMount(async () => {
 });
 
 const goHome = () => {
-  router.push('/');
+  router.push(`/`);
 };
 </script>
 

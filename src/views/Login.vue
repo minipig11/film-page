@@ -78,14 +78,16 @@ const login = async () => {
 	}
 };
 
-
 const goHome = () => {
-	router.push('/');
+  isShow.value = false;
+  const param = route.params.param || ''; // 获取当前的 param 值
+  router.push(`/${param}`);
 };
 
 const register = () => {
 	router.push('/order-required');
 };
+
 </script>
 
 <style scoped>
