@@ -1,22 +1,28 @@
 <template>
   <div class="order-required-container">
     <div class="content-box">
-      <p class="intro-text">
-        观看视频网站，服务半年有效。
-      </p>
+      <p class="intro-text">提供以下影视/游戏信息：</p>
+      <ul class="title-list">
+        <li v-for="(title, index) in titles" :key="index">
+          {{ title }}
+        </li>
+      </ul>
       <p class="intro-text">打开闲鱼扫一扫，点"我想要"吧～。无人值守24h【自动秒发货】！</p>
-      <img :src="orderUrl || '../assets/logo.svg'" alt="Order Required" class="order-image"/>
+      <img :src="orderUrl || '../assets/logo.svg'" alt="Order Required" class="order-image" />
       <button @click="goHome" class="go-home-button">返回首页</button>
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
-import { getOrderUrl } from  '../utils/ossServer';
+import { getOrderUrl } from '../utils/ossServer';
+import { episodeTitle } from '../config/index.js';
 
 const router = useRouter();
-const orderUrl = ref(''); // 将 orderUrl 定义为 ref
+const orderUrl = ref('');
+const titles = ref(Object.values(episodeTitle).map((item) => item.title)); // 提取标题信息
 
 onBeforeMount(async () => {
   orderUrl.value = await getOrderUrl();
@@ -57,11 +63,17 @@ const goHome = () => {
   border-radius: 4px;
 }
 
-.message {
-  font-size: 1.2rem;
+.title-list {
+  list-style: disc; /* 使用小圆点作为列表项符号 */
+  padding-left: 20px; /* 增加左边距，使圆点和内容对齐 */
+  margin: 20px 0;
+}
+
+.title-list li {
+  font-size: 1rem;
   color: #333;
-  margin-bottom: 25px;
-  line-height: 1.5;
+  margin-bottom: 10px;
+  text-align: left; /* 确保文本左对齐 */
 }
 
 .go-home-button {
@@ -91,4 +103,4 @@ const goHome = () => {
   color: #007bff;
   text-decoration: underline;
 }
-</style> 
+</style>

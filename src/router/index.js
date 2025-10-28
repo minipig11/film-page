@@ -4,7 +4,7 @@ import CoursePlay from '../views/CoursePlay.vue'
 
 const routes = [
   {
-    path: '/',
+    path: '/:param?', // 动态路由参数
     name: 'Home',
     component: Home
   },{

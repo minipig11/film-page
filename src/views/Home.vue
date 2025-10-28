@@ -3,13 +3,13 @@
     <main>
       <!-- AI基础板块 -->
       <section class="ai-basics">
-        <h2>沉默的荣耀</h2>
+        <h2>{{episodes_title.title}}</h2>
         <p class="section-desc">
-        演员： 马晓伟  霍青  秦焰  于和伟  李健  喻恩泰  傅程鹏  郝平  吴越  巩峥  魏晨  徐佳  郑晓宁  徐洪浩  曾黎  谭凯  黄俊鹏  余皑磊  艾东  曹磊  张晞临  郑家彬  那志东  隆妮 
-        </p><p class="section-desc">类型： 无 地区： 大陆</p>
-        <p class="section-desc">导演： 杨亚洲 上映日期：2025-09-30</p>
+          演员： {{episodes_title.actor}}
+        </p><p class="section-desc">类型： {{episodes_title.type}} 地区： {{episodes_title.area}}</p>
+        <p class="section-desc">导演： {{episodes_title.dictor}} 上映日期：{{episodes_title.age}}</p>
         <p class="section-desc">
-          剧情介绍：1949年8月，本来要在福州迎接解放的吴石，突然被蒋介石任命为国民政府国防部次长。为了获得更多情报，吴石按照党组织的指示毅然前往台湾就职，利用工作便利陆续向中共华东局提供了有关金门岛兵力变化、西南战役国军调动等重要情报。原本要回上海的朱枫在得知吴石原来的交通员牺牲、组织上需要派新的交通员去台湾时，也毅然放弃了阖家团圆的机会，只身去了台湾。吴石、朱枫密切合作，送出了多份重要情报。1950年2月，由于叛徒出卖，吴石、朱枫、陈宝仓和聂曦等人不幸被捕，牺牲在台北西马场町，但他们送出的舟山兵力部署图帮助解放军顺利解放舟山群岛，为全国解放事业作出了贡献。
+          剧情介绍：{{episodes_title.description}}
         </p>
         <div class="course-grid">
           <CourseCard
@@ -44,25 +44,30 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, watch } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { useUserStore } from '../store/user';
 import CourseCard from '../components/CourseCard.vue';
 import { testCourseCheckAuth } from '../utils/supabase';
+import { episodeData, episodeTitle } from '../config/index.js';
 
 const router = useRouter();
+const route = useRoute();
+const param = ref(route.params.param || 'default'); // 获取动态参数，默认为 'default'
 
-// 定义 34 集的数组
-const episodes = ref(
-  Array.from({ length: 34 }, (_, i) => ({
-    title: '沉默的荣耀',
-    type: 'basic',
-    level: '初级',
-    ageRange: '(5-7 岁)',
-    description: '沉默的荣耀',
-    courseWareId: `ai_basic_${i + 1}`,
-    name: `第${i + 1}集`,
-  }))
+
+// 根据参数动态加载数组
+const episodes = ref(episodeData[param.value] || episodeData.default);
+const episodes_title = ref(episodeTitle[param.value] || episodeTitle.default);
+
+// 监听路由参数变化
+watch(
+  () => route.params.param,
+  (newParam) => {
+    param.value = newParam || 'default';
+    episodes.value = episodeData[param.value] || episodeData.default;
+    episodes_title.value = episodeTitle[param.value] || episodeTitle.default;
+  }
 );
 
 const startPlay = async (courseId, chapterId, isTrial = 'oss') => {
