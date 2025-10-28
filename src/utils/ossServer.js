@@ -26,8 +26,8 @@ const client = new OSS({
  */
 export const getSignedOssVideoUrl = async (courseId, chapterId, expires = 3600) => {
    // 异步生成签名 URL
-    // const videoFilePath = courseId + "/" + courseId + chapterId + ".mp4" ;
-    const videoFilePath = "1.mov" ;
+    const videoFilePath = courseId + "/" + courseId + chapterId + ".mp4" ;
+    // const videoFilePath = "1.mov" ;
     let url = '';
     try {
       url  = await client.signatureUrl(videoFilePath, { expires });
